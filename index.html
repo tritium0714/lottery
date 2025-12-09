@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>抽奖报名</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    .container {
+      background-color: white;
+      padding: 20px;
+      max-width: 400px;
+      margin: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input[type="text"], input[type="email"] {
+      width: 100%;
+      padding: 8px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 10px 15px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .result {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 18px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>报名抽奖</h2>
+    <label for="email">邮箱:</label>
+    <input type="email" id="email" placeholder="请输入邮箱" required>
+    <label for="insta">Instagram账号:</label>
+    <input type="text" id="insta" placeholder="请输入Instagram账号" required>
+    <button onclick="drawLottery()">抽奖</button>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    const prizes = [
+      {name: "衣服", count: 50},
+      {name: "徽章", count: 250},
+      {name: "包包", count: 70},
+      {name: "帽子", count: 70}
+    ];
+
+    // 创建奖品概率数组
+    let prizePool = [];
+    prizes.forEach(p => {
+      for(let i=0; i<p.count; i++){
+        prizePool.push(p.name);
+      }
+    });
+
+    function drawLottery() {
+      const email = document.getElementById("email").value.trim();
+      const insta = document.getElementById("insta").value.trim();
+
+      if(!email || !insta){
+        alert("请填写邮箱和Instagram账号！");
+        return;
+      }
+
+      // 随机抽取
+      const randomIndex = Math.floor(Math.random() * prizePool.length);
+      const prize = prizePool[randomIndex];
+
+      document.getElementById("result").innerText = `恭喜你抽中了: ${prize}!`;
+    }
+  </script>
+</body>
+</html>
