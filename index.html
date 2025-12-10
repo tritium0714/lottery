@@ -74,13 +74,24 @@ const prizes = [
 ];
 
 function getRandomPrize() {
-  const total = prizes.reduce((sum,p)=>sum+p.weight,0);
-  let rand = Math.random() * total;
-  for(let p of prizes){
-    if(rand < p.weight) return p.name;
+  // 计算总权重
+  const totalWeight = prizes.reduce((sum, p) => sum + p.weight, 0);
+  // 生成一个 0 ~ totalWeight 的随机数
+  let rand = Math.random() * totalWeight;
+
+  // 遍历奖品，找到落在哪个区间
+  for (let p of prizes) {
+    if (rand < p.weight) return p.name;
     rand -= p.weight;
   }
+
+  // 兜底（正常不会触发）
+  return prizes[0].name;
 }
+
+// 使用示例：
+const prize = getRandomPrize();
+console.log(prize);
 
 function submitForm() {
   const email = document.getElementById('email').value.trim();
@@ -97,14 +108,15 @@ function submitForm() {
   formData.append("entry.742844322", insta);   // Instagram
   fetch(formURL, { method: "POST", mode: "no-cors", body: formData });
 
-  // 随机抽奖
-  const randomIndex = Math.floor(Math.random() * prizePool.length);
-  const prize = prizePool[randomIndex];
-  document.getElementById('result').innerText = `🎉 Congratulations! You won: ${prize}`;
-}
+
+// 改成按权重抽奖
+const prize = getRandomPrize();
+document.getElementById('result').innerText = `🎉 Congratulations! You won: ${prize}`;
+
 </script>
 </body>
 </html>
+
 
 
 
