@@ -67,19 +67,20 @@ button:hover {
 <script>
 // 奖品配置（name + 数量）
 const prizes = [
-  {name: "Shirt", count: 50},
-  {name: "Badge", count: 250},
-  {name: "Bag", count: 70},
-  {name: "Hat", count: 70}
+  {name: "Shirt", weight: 50},
+  {name: "Badge", weight: 250},
+  {name: "Bag", weight: 70},
+  {name: "Hat", weight: 70}
 ];
 
-// 构建奖品池
-let prizePool = [];
-prizes.forEach(p => {
-  for(let i=0;i<p.count;i++){
-    prizePool.push(p.name);
+function getRandomPrize() {
+  const total = prizes.reduce((sum,p)=>sum+p.weight,0);
+  let rand = Math.random() * total;
+  for(let p of prizes){
+    if(rand < p.weight) return p.name;
+    rand -= p.weight;
   }
-});
+}
 
 function submitForm() {
   const email = document.getElementById('email').value.trim();
@@ -104,5 +105,6 @@ function submitForm() {
 </script>
 </body>
 </html>
+
 
 
